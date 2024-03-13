@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Incidencias{% endblock %}
+
+{% block body %}
+<style>
+     body {
+        background-color: #5e6681; /* Fondo oscuro */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #f7fafc; /* Color de texto claro */
+        padding: 20px
+    }
+    h1 {
+        color: #83D6CF; /* Color de título claro */
+        text-align: center;
+        margin: 40px 0 20px;
+    }
+
+button {
+ display: inline-block;
+ width: 150px;
+ height: 50px;
+ border-radius: 10px;
+ border: 1px solid #03045e;
+ position: relative;
+ overflow: hidden;
+ transition: all 0.5s ease-in;
+ z-index: 1;
+ background-color:#81E6D9;
+}
+
+button::before,
+button::after {
+ content: '';
+ position: absolute;
+ top: 0;
+ width: 0;
+ height: 100%;
+ transform: skew(15deg);
+ transition: all 0.5s;
+ overflow: hidden;
+ z-index: -1;
+}
+
+    button::before {
+ left: -10px;
+ background: #240046;
+}
+
+button::after {
+ right: -10px;
+ background: #5a189a;
+}
+
+button:hover::before,
+button:hover::after {
+ width: 58%;
+}
+
+button:hover span {
+ color: #e0aaff;
+ transition: 0.3s;
+}
+
+button span {
+ color: #03045e;
+ font-size: 18px;
+ transition: all 0.3s ease-in;
+}
+    .table-container {
+        overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+        margin: 20px auto;
+        max-width: 90%;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        background-color: #2d3748; /* Fondo oscuro para la tabla */
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse; /* Elimina el espaciado entre celdas */
+        border: 2px solid #81e6d9;
+        margin-bottom:20px;
+        
+    }
+    .table th, .table td {
+        text-align: left;
+        padding: 12px 15px;
+        
+        
+    }
+    .table th {
+        background-color: #4c566a; /* Encabezado más oscuro */
+        color: #81e6d9; /* Texto claro para el encabezado */
+    }
+    .table tr:nth-child(odd) {
+        background-color: #434c5e; /* Filas alternas para mejor legibilidad */
+    }
+    .table tr:hover {
+        background-color: #3b4252; /* Resalta fila al pasar el mouse */
+    }
+    a {
+        color: #81e6d9; /* Color para enlaces para asegurar visibilidad y diseño */
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
+</style>
+<div class="user-header" style="background-color: #5e6681; color: #83D6CF; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+    <!-- Imagen del logo a la izquierda -->
+    <div class="logo-container">
+        <img src="/imagenes/{{"logo.png"}}" alt="Logo" style="width: 150px; height: auto; margin-left: 35px">
+    </div>
+    <div class="logo-container">
+        <h1 style="color:#00E7D9;">Lista De Incidencias</h1>
+    </div>
+    <!-- Contenido del usuario y enlace de logout a la derecha -->
+    <div style="display: flex; align-items: center; margin-right: 55px">
+        <div class="user-info" style="display: inline-block; text-align: center; ">
+            {% if app.user.foto %}
+                <img src="/imagenes/{{app.user.foto}}" alt="Foto de perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+            {% else %}
+                <img src="/imagenes/{{"logoDefault.png"}}" alt="Foto de perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+            {% endif %}
+            <div class="user-email" style="margin-top: 10px;">{{ app.user.email }}</div>
+        </div>
+        <!-- Enlace de Logout -->
+        <a href="{{ path('app_logout') }}" style="color: #00E7D9; margin-left: 40px; font-weight: bold;"><i class="fa fa-sign-out" aria-hidden="true" style="font-size:35px;"></i></a>
+    </div>
+</div>
+<hr style="margin-bottom:20px"> 
+<div style="text-align: center; margin-bottom: 20px;" class="menu">
+    <a href="{{ path('clientes') }}" style="color: #83D6CF; margin-right: 20px; font-weight: bold; font-size:18px;">Clientes</a>
+    <a href="{{ path('incidencias') }}" style="color: #83D6CF; font-weight: bold; font-size:18px;">Incidencias</a>
+</div>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for incidencia in incidencias %}
+        <tr>
+            <td>{{ incidencia.titulo }}</td>
+            <td>{{ incidencia.fecha ? incidencia.fecha|date('Y-m-d') : '' }}</td>
+            
+            <td>
+                <a href="{{ path('eliminarIncidencia', {'id': incidencia.id}) }}" class="btn" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</a>
+                <a href="{{ path('editarIncidencia', {'id': incidencia.id}) }}" class="btn" style="margin-left:15px;">Editar Incidencia</a>
+            </td>
+      
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">No se encontraron incidencias.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ path('nuevaIncidencia') }}" class="btn btn-success"><button><span>Añadir Nueva incidencia</span></button></a>
+{% endblock %}

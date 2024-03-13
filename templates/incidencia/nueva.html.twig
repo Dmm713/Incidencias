@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Incidencia{% endblock %}
+
+{% block body %}
+<style>
+    body {
+       font-family: Arial, sans-serif;
+        background-color: #5e6681;
+        color:white;
+    }
+    h1 {
+        text-align: center;
+        color: white;
+    }
+    form{
+          background-color: #2A2B38;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .form-group {
+        margin-bottom: 1rem;
+        width:100%;
+    }
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+   button[type="submit"]{
+ 
+ border: none;
+ border-radius: 4px;
+ font-weight: bold;
+ font-size: .8em;
+ text-transform: uppercase;
+ padding: 0.6em 1.2em;
+ background-color: #ffeba7;
+ color: #5e6681;
+ box-shadow: 0 8px 24px 0 rgb(255 235 167 / 20%);
+ transition: all .3s ease-in-out;
+}
+
+button[type="submit"] {
+    width:100%;
+ color: #5e6681;
+ display: block;
+ font-size: .75em;
+ transition: color .3s ease-out;
+}
+
+button[type="submit"]:hover {
+ background-color: #5e6681;
+ color: #ffeba7;
+ box-shadow: 0 8px 24px 0 rgb(16 39 112 / 20%);
+}
+
+button[type="submit"]:hover {
+ color: #ffeba7;
+}
+</style>
+<div class="user-header" style="background-color: #5e6681; color: #83D6CF; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+<!-- Imagen del logo a la izquierda -->
+    <div class="logo-container">
+        <img src="/imagenes/{{"logo.png"}}" alt="Logo" style="width: 150px; height: auto; margin-left: 35px">
+    </div>
+    <div class="logo-container">
+        <h1 style="color:#00E7D9;">Nueva Incidencia</h1>
+    </div>
+    <!-- Contenido del usuario y enlace de logout a la derecha -->
+    <div style="display: flex; align-items: center; margin-right: 55px">
+        <div class="user-info" style="display: inline-block; text-align: center; ">
+            {% if app.user.foto %}
+                <img src="/imagenes/{{app.user.foto}}" alt="Foto de perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+            {% else %}
+                <img src="/imagenes/{{"logoDefault.png"}}" alt="Foto de perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+            {% endif %}
+            <div class="user-email" style="margin-top: 10px;">{{ app.user.email }}</div>
+        </div>
+        <!-- Enlace de Logout -->
+        <a href="{{ path('app_logout') }}" style="color: #00E7D9; margin-left: 40px; font-weight: bold;"><i class="fa fa-sign-out" aria-hidden="true" style="font-size:35px;"></i></a>
+    </div>
+</div>
+<hr style="margin-bottom:20px"> 
+<div style="text-align: center; margin-bottom: 20px;" class="menu">
+    <a href="{{ path('clientes') }}" style="color: #83D6CF; margin-right: 20px; font-weight: bold; font-size:18px;">Clientes</a>
+    <a href="{{ path('incidencias') }}" style="color: #83D6CF; font-weight: bold; font-size:18px;">Incidencias</a>
+</div>
+
+
+{{ form_start(form) }}
+
+{% if form.vars.errors|length > 0 %}
+<div class="alert alert-danger">
+    <p>Por favor, corrige los siguientes errores:</p>
+    <ul>
+        {% for error in form.vars.errors %}
+        <li>{{ error.message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% for child in form.children %}
+    {% if child.vars.name != '_token' %}
+        <div class="form-group">
+            {{ form_label(child) }}
+            {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(child) }}
+        </div>
+    {% endif %}    
+{% endfor %}
+
+<button type="submit" class="btn btn-primary">Crear</button>
+{{ form_end(form) }}
+{% endblock %}

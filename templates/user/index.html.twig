@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+{% block title %}Hello UserController!{% endblock %}
+{% block body %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #5e6681;
+        color:white;
+    }
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #2a2b38;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-top:2%;
+    }
+    h1 {
+        text-align: center;
+        color: white;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="tel"] {
+        width: 96%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .form-group input[type="file"] {
+        border: none;
+    }
+    .form-error {
+        color: #d9534f;
+        margin-bottom: 15px;
+    }
+
+    button[type="submit"]{
+ border: none;
+ border-radius: 4px;
+ font-weight: bold;
+ font-size: .8em;
+ text-transform: uppercase;
+ padding: 0.6em 1.2em;
+ background-color: #ffeba7;
+ color: #5e6681;
+ box-shadow: 0 8px 24px 0 rgb(255 235 167 / 20%);
+ transition: all .3s ease-in-out;
+}
+
+button[type="submit"] {
+    width:100%;
+ color: #5e6681;
+ display: block;
+ font-size: .75em;
+ transition: color .3s ease-out;
+}
+
+button[type="submit"]:hover {
+ background-color: #5e6681;
+ color: #ffeba7;
+ box-shadow: 0 8px 24px 0 rgb(16 39 112 / 20%);
+}
+
+button[type="submit"]:hover {
+ color: #ffeba7;
+}
+</style>
+
+<div class="form-container">
+ <div class="logo-container" style="text-align: center;">
+        <img src="/imagenes/{{"logo.png"}}" alt="Logo" style="width: 200px; height: auto;">
+    </div>
+    <h1>Registrar Usuario</h1>
+
+    {{ form_start(registrationForm) }}
+    <div class="form-error">{{ form_errors(registrationForm) }}</div>
+
+    <div class="form-group">
+        {{ form_label(registrationForm.nombre) }}
+        {{ form_widget(registrationForm.nombre) }}
+        <div class="form-error">{{ form_errors(registrationForm.nombre) }}</div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(registrationForm.apellidos) }}
+        {{ form_widget(registrationForm.apellidos) }}
+        <div class="form-error">{{ form_errors(registrationForm.apellidos) }}</div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(registrationForm.email) }}
+        {{ form_widget(registrationForm.email) }}
+        <div class="form-error">{{ form_errors(registrationForm.email) }}</div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(registrationForm.password) }}
+        {{ form_widget(registrationForm.password) }}
+        <div class="form-error">{{ form_errors(registrationForm.password) }}</div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(registrationForm.tel) }}
+        {{ form_widget(registrationForm.tel) }}
+        <div class="form-error">{{ form_errors(registrationForm.tel) }}</div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(registrationForm.foto) }}
+        {{ form_widget(registrationForm.foto) }}
+        <div class="form-error">{{ form_errors(registrationForm.foto) }}</div>
+    </div>
+
+    <button type="submit" >Registrar</button>
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}

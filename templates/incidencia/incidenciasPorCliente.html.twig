@@ -1,0 +1,364 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Incidencias del Cliente{% endblock %}
+
+{% block body %}
+<style>
+    body {
+         background-color: #5e6681; /* Fondo oscuro */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #f7fafc; /* Color de texto claro */
+        padding:10px;
+        
+    }
+     h1 {
+        color: #83D6CF; /* Color de título claro */
+        text-align: center;
+        margin: 40px 0 20px;
+    }
+    .btn {
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0 10px; /* Espaciado entre botones */
+    }
+    .btn-success {
+        background-color: #48bb78;
+        border: none;
+    }
+    .btn-success:hover {
+        background-color: #38a169;
+    }
+    .btn-danger {
+        background-color: #e53e3e;
+        border: none;
+    }
+    .btn-danger:hover {
+        background-color: #c53030;
+    }
+    .table-container {
+        overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+        margin: 20px auto;
+        max-width: 90%;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        background-color: #2d3748; /* Fondo oscuro para la tabla */
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse; /* Elimina el espaciado entre celdas */
+        border: 2px solid #81e6d9;
+        text-align:center;
+        margin-bottom:20px;
+        
+    }
+    .table th, .table td {
+        text-align: left;
+        padding: 12px 15px;
+        
+        
+    }
+    .table th {
+        background-color: #4c566a; /* Encabezado más oscuro */
+        color: #81e6d9; /* Texto claro para el encabezado */
+    }
+    .table tr:nth-child(odd) {
+        background-color: #434c5e; /* Filas alternas para mejor legibilidad */
+    }
+    .table tr:hover {
+        background-color: #3b4252; /* Resalta fila al pasar el mouse */
+    }
+    a {
+        color: #81e6d9; /* Color para enlaces para asegurar visibilidad y diseño */
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* From uiverse.io by @Ali-Tahmazi99 */
+button {
+ display: inline-block;
+ width: 150px;
+ height: 50px;
+ border-radius: 10px;
+ border: 1px solid #03045e;
+ position: relative;
+ overflow: hidden;
+ transition: all 0.5s ease-in;
+ z-index: 1;
+ background-color:#81E6D9;
+}
+
+button::before,
+button::after {
+ content: '';
+ position: absolute;
+ top: 0;
+ width: 0;
+ height: 100%;
+ transform: skew(15deg);
+ transition: all 0.5s;
+ overflow: hidden;
+ z-index: -1;
+}
+
+button::before {
+ left: -10px;
+ background: #240046;
+}
+
+button::after {
+ right: -10px;
+ background: #5a189a;
+}
+
+button:hover::before,
+button:hover::after {
+ width: 58%;
+}
+
+button:hover span {
+ color: #e0aaff;
+ transition: 0.3s;
+}
+
+button span {
+ color: #03045e;
+ font-size: 18px;
+ transition: all 0.3s ease-in;
+}
+
+
+.carta_perfi img {
+  width: 100%;
+}
+.carta_perfi {
+    background-color: #434C5E;
+     width: 330px;
+    margin: auto; /* Centrado horizontal */
+    position: relative;
+    border-radius: .75rem;
+    
+}
+.carta_perfi .carta_header {
+    display: flex;
+    width: 100%;
+    height: 120px;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center;
+    position: absolute;
+    background-color: #1594A6;
+    top: 0;
+    padding-bottom: 15px;
+    text-align: center;
+    color: #fff;
+    transition: all ease-in 350ms;
+    z-index: 1;
+    border-radius: .75rem;
+    line-height: .2;
+    margin: auto;
+}
+.carta_perfi .carta_header .textos h3 {
+    font-size: 1.3em;
+    margin-bottom: 0;
+}
+.carta_perfi .carta_header .textos h4 {
+    font-size: .8em;
+    font-style: italic;
+}
+.carta_perfi .carta_header .avatar {
+    display: block;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background-color: #E1E8F0;
+    top: -50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #fff;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, .1);
+}
+.carta_perfi .carta_header button {
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: .7em;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, .25);
+    position: absolute;
+    top: -15px;
+    left: calc(50% + 50px + 3rem);
+    background-color: #fff;
+    cursor: pointer;
+    transform: rotate(0);
+    transition: transform ease-in 350ms;
+}
+.carta_perfi .carta_header button:hover {
+    background-color: #E9E9E9;
+}
+.carta_perfi .carta_body {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 0px;
+    overflow: hidden;
+    padding-bottom: 20px;
+    transition: all ease-in 350ms;
+    box-shadow: 0 0 15px 2px rgba(0, 0, 0, .1), 0 0 8px 1px rgba(0, 0, 0, .1);
+    border-radius: .75rem;
+    opacity: 0;
+    visibility: hidden;
+    background-color:#434C5E;
+}
+.carta_perfi .carta_body ul {
+    margin-bottom: 1.75rem;
+    list-style: none;
+}
+.carta_perfi .carta_body ul li {
+    margin-bottom: .5rem;
+}
+.carta_perfi .carta_body ul i {
+    margin-right: 1rem;
+    display: inline-block;
+    transform: scale(1.25);
+}
+.carta_perfi .carta_body ul li:nth-child(1) i {
+    color: #668EE8;
+}
+.carta_perfi .carta_body ul li:nth-child(2) i {
+    color: #5BC7B1;
+}
+.carta_perfi .carta_body ul li:nth-child(3) i {
+    color: #FF5050;
+}
+.carta_perfi .carta_body .carta_pie {
+    text-align: center;
+}
+.carta_perfi .carta_body .carta_boton {
+    padding: 10px 25px;
+    border-radius: .25rem;
+    border: 0;
+    background-color: #1594A6;
+    color: #fff;
+    cursor: pointer;
+}
+.carta_perfi .carta_body .carta_boton:active {
+    background-color: #188291;
+}
+.carta_perfi .carta_contenido {
+    transform: translateY(35rem);
+    transition: all ease-in 550ms;
+}
+.carta_perfi.animacion .carta_body {
+    height: 320px;
+    opacity: 1;
+    visibility: visible;
+}
+.carta_perfi.animacion .carta_header {
+    top: 5rem;
+    border-radius: 0;
+}
+.carta_perfi.animacion .carta_contenido {
+    transform: translateY(0);
+}
+.carta_perfi.animacion .carta_header button {
+    transform: rotate(45deg);
+}
+
+ 
+</style>
+<div class="user-header" style="background-color: #5e6681; color: #83D6CF; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+    <!-- Imagen del logo a la izquierda -->
+    <div class="logo-container">
+        <img src="/imagenes/{{"logo.png"}}" alt="Logo" style="width: 150px; height: auto; margin-left: 35px">
+    </div>
+    <div class="logo-container">
+        <h1 style="color:#00E7D9;">Incidencias de {{ cliente.nombre}}</h1>
+    </div>
+    <!-- Contenido del usuario y enlace de logout a la derecha -->
+    <div style="display: flex; align-items: center; margin-right: 55px">
+        <div class="user-info" style="display: inline-block; text-align: center; ">
+            {% if app.user.foto %}
+                <img src="/imagenes/{{app.user.foto}}" alt="Foto de perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+            {% else %}
+                <img src="/imagenes/{{"logoDefault.png"}}" alt="Foto de perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+            {% endif %}
+            <div class="user-email" style="margin-top: 10px;">{{ app.user.email }}</div>
+        </div>
+        <!-- Enlace de Logout -->
+        <a href="{{ path('app_logout') }}" style="color: #00E7D9; margin-left: 40px; font-weight: bold;"><i class="fa fa-sign-out" aria-hidden="true" style="font-size:35px;"></i></a>
+    </div>
+</div>
+<hr style="margin-bottom:20px; color:#00E7D9"> 
+<div style="text-align: center; margin-bottom: 60px;" class="menu">
+    <a href="{{ path('clientes') }}" style="color: #83D6CF; margin-right: 20px; font-weight: bold; font-size:18px;">Clientes</a>
+    <a href="{{ path('incidencias') }}" style="color: #83D6CF; font-weight: bold; font-size:18px;">Incidencias</a>
+</div>
+
+
+<div class="carta_perfi">
+    <div class="carta_header">
+        <div class="avatar">
+            <img src="/imagenes/{{"logoDefault.png"}}" alt="Cliente">
+        </div>
+        <div class="textos">
+             <h2>{{ cliente.nombre }}</h2>
+             <h4>{{ cliente.apellidos }}</h4>
+        </div>
+        <button type="button" id="carta_boton"><i class="fa fa-plus"></i></button>
+    </div>
+    <div class="carta_body">
+        <div class="carta_contenido">
+            <ul class="lista">
+                <li><i class="fa fa-check"></i> Dirección: {{ cliente.direccion }}</li>
+                <li><i class="fa fa-check"></i> Teléfono: {{ cliente.telefono }}</li>
+            </ul>
+        </div>
+    </div>
+</div> 
+
+{% if incidencias|length > 0 %}
+<table class="table"  style="margin-top: 9%;">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for incidencia in incidencias %}
+        <tr>
+            <td>{{ incidencia.titulo }}</td>
+            <td>{{ incidencia.fecha|date('Y-m-d') }}</td>
+            <td>{{ incidencia.estado }}</td>
+             <td>
+                <a href="{{ path('eliminarIncidenciaPorCliente', {'id': incidencia.id}) }}" class="btn" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</a>
+                <a href="{{ path('editarPorCliente', {'id': incidencia.id}) }}" class="btn" >Editar Incidencia</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    let carta_perfi = document.querySelector('.carta_perfi');
+    let carta_boton = document.getElementById('carta_boton');
+    carta_boton.addEventListener('click', ()=>{
+    carta_perfi.classList.toggle('animacion');
+});
+</script>
+{% else %}
+<p>No se encontraron incidencias para este cliente.</p>
+{% endif %}
+<a href="{{ path('nuevaIncidenciaPorCliente', {'id': cliente.id}) }}" class="btn " style="margin-top:20px;"><button><span>Añadir Nueva Incidencia</span></button></a>
+{% endblock %}

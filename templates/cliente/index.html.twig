@@ -1,0 +1,121 @@
+<style>
+    body {
+        background-color: #5e6681; /* Fondo oscuro */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #f7fafc; /* Color de texto claro */
+        padding: 20px;
+    }
+    h1 {
+        color: #fff;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .form-container {
+        background-color: #2A2B38;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: .5rem;
+        color: #fff;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select,
+    textarea {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    select:focus,
+    textarea:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    .form-error {
+        color: #dc3545;
+        font-size: .875rem;
+        margin-top: .25rem;
+    }
+
+
+
+/*Hover & focus*/
+.field input:focus::placeholder {
+ opacity: 0;
+ transition: opacity .3s;
+}
+
+
+    button[type="submit"]{
+ 
+ border: none;
+ border-radius: 4px;
+ font-weight: bold;
+ font-size: .8em;
+ text-transform: uppercase;
+ padding: 0.6em 1.2em;
+ background-color: #ffeba7;
+ color: #5e6681;
+ box-shadow: 0 8px 24px 0 rgb(255 235 167 / 20%);
+ transition: all .3s ease-in-out;
+}
+
+button[type="submit"] {
+    width:100%;
+ color: #5e6681;
+ display: block;
+ font-size: .75em;
+ transition: color .3s ease-out;
+}
+
+button[type="submit"]:hover {
+ background-color: #5e6681;
+ color: #ffeba7;
+ box-shadow: 0 8px 24px 0 rgb(16 39 112 / 20%);
+}
+
+button[type="submit"]:hover {
+ color: #ffeba7;
+}
+</style>
+
+<div class="form-container">
+    <h1>Cree un nuevo cliente</h1>
+    {{ form_start(form) }}
+
+    <div class="form-error">{{ form_errors(form) }}</div>
+
+   {% for child in form.children %}
+        {% if child.vars.name != '_token' %}
+            <div class="form-group">
+                {{ form_label(child) }}
+                {{ form_widget(child) }}
+                <div class="form-error">{{ form_errors(child) }}</div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    {{ form_end(form) }}
+</div>
